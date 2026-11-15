@@ -10,7 +10,6 @@
   &nbsp; · &nbsp;
   <a href="docs/PROJECT_DOCUMENTATION.md">📚 Full Documentation</a>
   &nbsp; · &nbsp;
-  <a href="docs/CLOUDFLARE_DEPLOYMENT.md">☁️ Deploy with Cloudflare</a>
 </p>
 
 <p>
@@ -191,10 +190,6 @@ CIPHER is a static React + Vite application, so **Cloudflare Pages** can host th
 | Build output directory | `dist` |
 | Environment variable | `NODE_VERSION` = `22.23.4` |
 
-**Full walkthrough:** [Cloudflare Pages deployment guide](docs/CLOUDFLARE_DEPLOYMENT.md). It covers account setup, GitHub connection, each dashboard setting, deployment verification, custom domains, automatic updates and troubleshooting.
-
-After deployment, replace the **Live Demo** placeholder at the top of this README with your actual `https://<project-name>.pages.dev` URL.
-
 ## 🗂️ Project structure
 
 ```text
@@ -257,8 +252,6 @@ Please read these notes before treating CIPHER as a secure file-sharing system:
 | Document | What it covers |
 |---|---|
 | [Project documentation](docs/PROJECT_DOCUMENTATION.md) | Goals, architecture, cryptographic design, payload structure, image handling, metadata, Vault, privacy, limitations and testing |
-| [Cloudflare deployment guide](docs/CLOUDFLARE_DEPLOYMENT.md) | Complete dashboard-based hosting walkthrough, settings, testing and troubleshooting |
-| [GitHub and deployment guide](docs/GITHUB_AND_DEPLOYMENT_GUIDE.md) | Preparing a local project, GitHub repository setup and deployment workflow |
 
 ## 🤝 Contributing
 
