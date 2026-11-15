@@ -37,8 +37,7 @@ const footerGroups = [
     title: "PROJECT",
     links: [
       ["Technology overview", "/technology"],
-      ["Privacy", "/privacy"],
-      ["Documentation", "/documentation"],
+      ["Documentation", "https://github.com/Tekade-Ji/Cypher-Steganography-Project/blob/main/docs/PROJECT_DOCUMENTATION.md"],
     ],
   },
 ];
