@@ -1,0 +1,145 @@
+
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource/press-start-2p";
+
+@import "tailwindcss";
+
+@import "./variables.css";
+@import "./animations.css";
+@import "./components.css";
+
+@plugin "daisyui" {
+  themes: all;
+  logs: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "cipher";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #f8f5ed;
+  --color-base-200: #eee9dc;
+  --color-base-300: #ded5c5;
+  --color-base-content: #26251f;
+
+  --color-primary: #3857d6;
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #f17b50;
+  --color-secondary-content: #241b17;
+
+  --color-accent: #f5ca61;
+  --color-accent-content: #282316;
+
+  --color-neutral: #292a31;
+  --color-neutral-content: #f8f5ed;
+
+  --color-info: #6b9fda;
+  --color-success: #76a98c;
+  --color-warning: #e7b65a;
+  --color-error: #d86a66;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1.25rem;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "DM Sans", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+.cipher-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: #f5ca61;
+  border-block: 1px solid rgba(38, 37, 31, 0.15);
+}
+
+.cipher-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: cipher-marquee-final 22s linear infinite !important;
+  transform: translate3d(0, 0, 0);
+}
+
+.cipher-marquee-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.cipher-marquee-item {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 38px;
+  padding: 17px 42px;
+  color: #26251f;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  white-space: nowrap;
+}
+
+.cipher-marquee-item svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+@keyframes cipher-marquee-final {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.cipher-marquee:hover .cipher-marquee-track {
+  animation-play-state: paused !important;
+}
+

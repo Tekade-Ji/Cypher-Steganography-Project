@@ -1,0 +1,89 @@
+
+:root {
+  --cipher-blue: #3857d6;
+  --cipher-orange: #f17b50;
+  --cipher-yellow: #f5ca61;
+  --cipher-mint: #a8cdb8;
+  --cipher-pink: #e7a5a4;
+  --cipher-plum: #65506e;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-pixel: "Press Start 2P", monospace;
+
+  --page-width: 1440px;
+  --page-padding: clamp(20px, 5vw, 76px);
+
+  --radius-small: 8px;
+  --radius-medium: 16px;
+  --radius-large: 28px;
+
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-primary-content);
+}
+
+.cipher-container {
+  width: min(
+    calc(100% - 2 * var(--page-padding)),
+    var(--page-width)
+  );
+  margin-inline: auto;
+}
+
+.display-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
+.surface-transition {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
