@@ -127,8 +127,8 @@ npm --version
 **Option B: Clone with Git**
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME.git
-cd YOUR_REPOSITORY_NAME
+git clone https://github.com/Tekade-Ji/Cypher-Steganography-Project.git
+cd Cypher-Steganography-Project
 ```
 
 Replace the repository URL and folder name with the actual values shown on this GitHub page.
