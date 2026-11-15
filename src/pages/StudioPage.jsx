@@ -195,7 +195,7 @@ function StudioPage() {
             <h1 className="section-title mt-5">
               The secret
               <br />
-              <span className="text-primary">studio.</span>
+              <span className="text-primary">studio</span>
             </h1>
 
             <p className="section-description mt-5">
