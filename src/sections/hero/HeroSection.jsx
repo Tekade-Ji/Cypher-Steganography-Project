@@ -21,16 +21,15 @@ function HeroSection() {
     <section className="relative overflow-hidden pb-20 pt-16 md:pb-28 md:pt-24">
       <div className="cipher-container grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
 
-        <div className="relative z-10">
+        <div className="relative z-10 ">
           <motion.div
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
             variants={reveal}
             className="mb-8 inline-flex items-center gap-3 rounded-full border border-base-300 bg-base-100 px-4 py-2"
           >
-            <span className="h-2 w-2 rounded-full bg-success pixel-blink" />
 
-            <span className="text-[10px] font-bold uppercase tracking-[0.15em]">
+            <span className="text-[10px] font-bold uppercase tracking-[0.15em] ">
               A different way to hide information
             </span>
 
@@ -46,7 +45,7 @@ function HeroSection() {
             Beyond
             <br />
 
-            <span className="text-primary">visible.</span>
+            <span className="text-primary">visible</span>
 
             <br />
 
@@ -57,7 +56,7 @@ function HeroSection() {
 
             <br />
 
-            <span className="text-secondary">secret.</span>
+            <span className="text-secondary">secret</span>
           </motion.h1>
 
           <motion.p

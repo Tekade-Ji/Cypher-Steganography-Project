@@ -139,7 +139,4 @@ img {
   }
 }
 
-.cipher-marquee:hover .cipher-marquee-track {
-  animation-play-state: paused !important;
-}
 

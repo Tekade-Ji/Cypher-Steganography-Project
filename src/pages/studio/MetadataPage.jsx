@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -9,6 +8,9 @@ import {
   ShieldCheck,
   MapPin,
   Navigation,
+  FilePenLine,
+  Eraser,
+  Vault,
   ExternalLink,
 } from "lucide-react";
 
@@ -25,7 +27,6 @@ import {
   createMapUrl,
   createGoogleMapsUrl,
 } from "../../lib/image/reverseGeocode";
-
 
 function formatMetadataDate(value) {
   if (value === null || value === undefined || value === "") {
@@ -59,7 +60,6 @@ function formatMetadataDate(value) {
   }).format(date);
 }
 
-
 function MetadataPage() {
   const [file, setFile] = useState(null);
   const [report, setReport] = useState(null);
@@ -71,7 +71,6 @@ function MetadataPage() {
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState("");
 
-
   function handleFileChange(selected) {
     setFile(selected);
     setReport(null);
@@ -80,7 +79,6 @@ function MetadataPage() {
     setLocation(null);
     setLocationError("");
   }
-
 
   async function handleInspect() {
     if (!file) {
@@ -100,26 +98,18 @@ function MetadataPage() {
 
       setReport(result);
     } catch (err) {
-      setError(
-        err.message || "Unable to inspect this image.",
-      );
+      setError(err.message || "Unable to inspect this image.");
     } finally {
       setLoading(false);
     }
   }
 
-
   async function handleLocationLookup() {
     const latitude = report?.exif?.gps?.latitude;
     const longitude = report?.exif?.gps?.longitude;
 
-    if (
-      !Number.isFinite(latitude) ||
-      !Number.isFinite(longitude)
-    ) {
-      setLocationError(
-        "This image does not contain usable GPS coordinates.",
-      );
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      setLocationError("This image does not contain usable GPS coordinates.");
       return;
     }
 
@@ -128,28 +118,20 @@ function MetadataPage() {
     setLocation(null);
 
     try {
-      const result = await lookupPhotoLocation(
-        latitude,
-        longitude,
-      );
+      const result = await lookupPhotoLocation(latitude, longitude);
 
       setLocation(result);
     } catch (err) {
-      setLocationError(
-        err.message || "Unable to identify this location.",
-      );
+      setLocationError(err.message || "Unable to identify this location.");
     } finally {
       setLocationLoading(false);
     }
   }
 
-
   const gps = report?.exif?.gps;
 
   const hasGPS =
-    Number.isFinite(gps?.latitude) &&
-    Number.isFinite(gps?.longitude);
-
+    Number.isFinite(gps?.latitude) && Number.isFinite(gps?.longitude);
 
   const imageRows = report
     ? [
@@ -196,43 +178,32 @@ function MetadataPage() {
       ]
     : [];
 
-
   const timelineRows = report
     ? [
         {
           label: "Original capture",
           description: "EXIF DateTimeOriginal",
-          value: formatMetadataDate(
-            report.exif.dates.captured,
-          ),
+          value: formatMetadataDate(report.exif.dates.captured),
         },
         {
           label: "Digitization date",
           description: "EXIF DateTimeDigitized",
-          value: formatMetadataDate(
-            report.exif.dates.digitized,
-          ),
+          value: formatMetadataDate(report.exif.dates.digitized),
         },
         {
           label: "Embedded creation date",
           description: "EXIF/XMP creation timestamp",
-          value: formatMetadataDate(
-            report.exif.dates.created,
-          ),
+          value: formatMetadataDate(report.exif.dates.created),
         },
         {
           label: "Last modification",
           description: "EXIF ModifyDate",
-          value: formatMetadataDate(
-            report.exif.dates.modified,
-          ),
+          value: formatMetadataDate(report.exif.dates.modified),
         },
         {
           label: "Metadata modification",
           description: "XMP MetadataDate",
-          value: formatMetadataDate(
-            report.exif.dates.metadataModified,
-          ),
+          value: formatMetadataDate(report.exif.dates.metadataModified),
         },
         {
           label: "GPS date",
@@ -248,27 +219,19 @@ function MetadataPage() {
         },
         {
           label: "Original timezone",
-          value:
-            report.exif.dates.originalOffset ||
-            "Not recorded",
+          value: report.exif.dates.originalOffset || "Not recorded",
         },
         {
           label: "Modification timezone",
-          value:
-            report.exif.dates.modifiedOffset ||
-            "Not recorded",
+          value: report.exif.dates.modifiedOffset || "Not recorded",
         },
         {
           label: "File modification timestamp",
-          description:
-            "Browser File.lastModified (filesystem timestamp)",
-          value: formatMetadataDate(
-            report.file.lastModified,
-          ),
+          description: "Browser File.lastModified (filesystem timestamp)",
+          value: formatMetadataDate(report.file.lastModified),
         },
       ]
     : [];
-
 
   const cameraRows = report
     ? [
@@ -302,8 +265,7 @@ function MetadataPage() {
         },
         {
           label: "Orientation",
-          value:
-            report.exif.camera.orientation ?? "Not recorded",
+          value: report.exif.camera.orientation ?? "Not recorded",
         },
         {
           label: "ISO",
@@ -330,15 +292,12 @@ function MetadataPage() {
       ]
     : [];
 
-
   return (
     <>
       <Navbar />
 
       <main className="min-h-screen bg-base-200 py-14 md:py-20">
-
         <div className="cipher-container max-w-5xl">
-
           {/* Back navigation */}
 
           <Link
@@ -349,11 +308,9 @@ function MetadataPage() {
             Back to Studio
           </Link>
 
-
           {/* Page heading */}
 
           <div className="mb-10">
-
             <span className="section-eyebrow">
               <FileSearch size={15} />
               IMAGE INTELLIGENCE / 001
@@ -362,40 +319,35 @@ function MetadataPage() {
             <h1 className="section-title mt-5">
               Look beyond
               <br />
-              <span className="text-primary">
-                the pixels.
-              </span>
+              <span className="text-primary">the pixels.</span>
             </h1>
 
             <p className="section-description mt-5">
-              Explore the hidden information inside your images.
-              Inspect image properties, capture history, camera
-              information, geographical coordinates and embedded
-              metadata.
+              Explore the hidden information inside your images. Inspect image
+              properties, capture history, camera information, geographical
+              coordinates and embedded metadata.
             </p>
-
+            <Link
+              to="/studio/metadata-editor"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary hover:underline"
+            >
+              <FileSearch size={16} />
+              Open Metadata Editor
+            </Link>
           </div>
-
 
           {/* Main layout */}
 
           <div className="grid items-start gap-7 lg:grid-cols-[0.85fr_1.15fr]">
-
-
             {/* Left column */}
 
             <div className="space-y-5">
-
               <div className="rounded-2xl border border-base-300 bg-base-100 p-5">
-
                 <h2 className="mb-5 font-display text-xl font-bold">
                   Select an image
                 </h2>
 
-                <ImageUploader
-                  file={file}
-                  onFile={handleFileChange}
-                />
+                <ImageUploader file={file} onFile={handleFileChange} />
 
                 <button
                   type="button"
@@ -403,129 +355,78 @@ function MetadataPage() {
                   disabled={!file || loading}
                   className="cipher-button cipher-button-primary mt-5 w-full disabled:cursor-not-allowed disabled:opacity-50"
                 >
-
                   {loading ? (
                     <span className="loading loading-spinner loading-sm" />
                   ) : (
                     <ScanSearch size={17} />
                   )}
 
-                  {loading
-                    ? "Inspecting image..."
-                    : "Inspect image"}
-
+                  {loading ? "Inspecting image..." : "Inspect image"}
                 </button>
 
-
                 {error && (
-                  <div className="alert alert-error mt-4 text-sm">
-                    {error}
-                  </div>
+                  <div className="alert alert-error mt-4 text-sm">{error}</div>
                 )}
-
               </div>
-
 
               {/* Privacy information */}
 
               <div className="rounded-2xl border border-success/20 bg-success/5 p-5">
+                <ShieldCheck className="text-success" size={24} />
 
-                <ShieldCheck
-                  className="text-success"
-                  size={24}
-                />
-
-                <h3 className="mt-3 font-bold">
-                  Private inspection
-                </h3>
+                <h3 className="mt-3 font-bold">Private inspection</h3>
 
                 <p className="mt-2 text-xs leading-6 text-base-content/60">
-                  Image inspection happens locally inside your
-                  browser. Your original image is not uploaded
-                  to a CIPHER server.
+                  Image inspection happens locally inside your browser. Your
+                  original image is not uploaded to a CIPHER server.
                 </p>
-
               </div>
-
 
               {/* Location privacy notice */}
 
               <div className="rounded-2xl border border-warning/20 bg-warning/5 p-5">
+                <MapPin className="text-warning" size={23} />
 
-                <MapPin
-                  className="text-warning"
-                  size={23}
-                />
-
-                <h3 className="mt-3 font-bold">
-                  Location privacy
-                </h3>
+                <h3 className="mt-3 font-bold">Location privacy</h3>
 
                 <p className="mt-2 text-xs leading-6 text-base-content/60">
-                  Reverse geocoding sends the extracted GPS
-                  coordinates to an external mapping service
-                  only when you request a location lookup.
+                  Reverse geocoding sends the extracted GPS coordinates to an
+                  external mapping service only when you request a location
+                  lookup.
                 </p>
-
               </div>
-
             </div>
-
 
             {/* Right column */}
 
             <div className="space-y-5">
-
-
               {!report ? (
-
                 <div className="flex min-h-[340px] flex-col items-center justify-center rounded-2xl border border-dashed border-base-300 bg-base-100 p-8 text-center">
-
-                  <FileSearch
-                    size={42}
-                    className="text-base-content/25"
-                  />
+                  <FileSearch size={42} className="text-base-content/25" />
 
                   <h3 className="mt-5 font-display text-xl font-bold">
                     Waiting for an image
                   </h3>
 
                   <p className="mt-2 max-w-sm text-sm leading-6 text-base-content/50">
-                    Select an image and inspect the metadata your browser can read.
-                    Your complete metadata report will
-                    appear here.
+                    Select an image and inspect the metadata your browser can
+                    read. Your complete metadata report will appear here.
                   </p>
-
                 </div>
-
               ) : (
-
                 <>
-
                   {/* Statistics */}
 
                   <div className="grid grid-cols-3 gap-3">
-
                     {[
-                      [
-                        "FORMAT DETAILS",
-                        report.summary.totalChunks,
-                      ],
-                      [
-                        "METADATA",
-                        report.summary.metadataChunks,
-                      ],
-                      [
-                        "TEXT ENTRIES",
-                        report.summary.textEntries,
-                      ],
+                      ["FORMAT DETAILS", report.summary.totalChunks],
+                      ["METADATA", report.summary.metadataChunks],
+                      ["TEXT ENTRIES", report.summary.textEntries],
                     ].map(([label, value]) => (
-
                       <div
                         key={label}
                         className="rounded-xl border border-base-300 bg-base-100 p-4"
                       >
-
                         <p className="font-pixel text-[7px] text-base-content/45">
                           {label}
                         </p>
@@ -533,29 +434,17 @@ function MetadataPage() {
                         <p className="mt-3 font-display text-3xl font-bold">
                           {value}
                         </p>
-
                       </div>
-
                     ))}
-
                   </div>
-
 
                   {/* Image properties */}
 
-                  <MetadataTable
-                    title="Image properties"
-                    rows={imageRows}
-                  />
-
+                  <MetadataTable title="Image properties" rows={imageRows} />
 
                   {/* Image timeline */}
 
-                  <MetadataTable
-                    title="Image timeline"
-                    rows={timelineRows}
-                  />
-
+                  <MetadataTable title="Image timeline" rows={timelineRows} />
 
                   {/* Camera information */}
 
@@ -564,22 +453,14 @@ function MetadataPage() {
                     rows={cameraRows}
                   />
 
-
                   {/* GPS location */}
 
                   <section className="overflow-hidden rounded-2xl border border-base-300 bg-base-100">
-
                     <div className="border-b border-base-300 p-5">
-
                       <div className="flex items-center gap-3">
-
-                        <MapPin
-                          className="text-primary"
-                          size={23}
-                        />
+                        <MapPin className="text-primary" size={23} />
 
                         <div>
-
                           <h3 className="font-display text-xl font-bold">
                             Photograph location
                           </h3>
@@ -587,26 +468,17 @@ function MetadataPage() {
                           <p className="mt-1 text-xs text-base-content/50">
                             Extracted from embedded GPS metadata
                           </p>
-
                         </div>
-
                       </div>
-
                     </div>
 
-
                     <div className="p-5">
-
                       {hasGPS ? (
-
                         <>
-
                           {/* Coordinates */}
 
                           <div className="grid grid-cols-2 gap-3">
-
                             <div className="rounded-xl bg-base-200 p-4">
-
                               <p className="text-xs text-base-content/50">
                                 LATITUDE
                               </p>
@@ -614,12 +486,9 @@ function MetadataPage() {
                               <p className="mt-2 break-all font-display text-lg font-bold">
                                 {gps.latitude.toFixed(7)}°
                               </p>
-
                             </div>
 
-
                             <div className="rounded-xl bg-base-200 p-4">
-
                               <p className="text-xs text-base-content/50">
                                 LONGITUDE
                               </p>
@@ -627,22 +496,17 @@ function MetadataPage() {
                               <p className="mt-2 break-all font-display text-lg font-bold">
                                 {gps.longitude.toFixed(7)}°
                               </p>
-
                             </div>
 
-
                             <div className="rounded-xl bg-base-200 p-4">
-
                               <p className="text-xs text-base-content/50">
                                 ALTITUDE
                               </p>
 
                               <p className="mt-2 font-display text-lg font-bold">
-
                                 {gps.altitude !== null
                                   ? `${gps.altitude.toFixed(2)} m`
                                   : "Unavailable"}
-
                               </p>
 
                               {gps.altitudeReference !== null && (
@@ -650,28 +514,20 @@ function MetadataPage() {
                                   Reference: {String(gps.altitudeReference)}
                                 </p>
                               )}
-
                             </div>
 
-
                             <div className="rounded-xl bg-base-200 p-4">
-
                               <p className="text-xs text-base-content/50">
                                 DIRECTION
                               </p>
 
                               <p className="mt-2 font-display text-lg font-bold">
-
                                 {gps.direction !== null
                                   ? `${gps.direction.toFixed(1)}°`
                                   : "Unavailable"}
-
                               </p>
-
                             </div>
-
                           </div>
-
 
                           {/* Location lookup */}
 
@@ -681,7 +537,6 @@ function MetadataPage() {
                             disabled={locationLoading}
                             className="cipher-button cipher-button-primary mt-5 w-full disabled:opacity-50"
                           >
-
                             {locationLoading ? (
                               <span className="loading loading-spinner loading-sm" />
                             ) : (
@@ -691,19 +546,13 @@ function MetadataPage() {
                             {locationLoading
                               ? "Identifying location..."
                               : "Find city / area"}
-
                           </button>
-
 
                           {/* Map links */}
 
                           <div className="mt-4 flex flex-wrap gap-4">
-
                             <a
-                              href={createMapUrl(
-                                gps.latitude,
-                                gps.longitude,
-                              )}
+                              href={createMapUrl(gps.latitude, gps.longitude)}
                               target="_blank"
                               rel="noreferrer"
                               className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
@@ -711,7 +560,6 @@ function MetadataPage() {
                               OpenStreetMap
                               <ExternalLink size={13} />
                             </a>
-
 
                             <a
                               href={createGoogleMapsUrl(
@@ -725,27 +573,20 @@ function MetadataPage() {
                               Google Maps
                               <ExternalLink size={13} />
                             </a>
-
                           </div>
-
 
                           {/* Location errors */}
 
                           {locationError && (
-
                             <div className="alert alert-warning mt-4 text-sm">
                               {locationError}
                             </div>
-
                           )}
-
 
                           {/* Resolved location */}
 
                           {location && (
-
                             <div className="mt-5 rounded-xl border border-success/30 bg-success/5 p-4">
-
                               <p className="text-xs font-bold uppercase tracking-wider text-success">
                                 Reverse geocoding result
                               </p>
@@ -769,26 +610,18 @@ function MetadataPage() {
                               <p className="mt-3 text-[10px] text-base-content/45">
                                 {location.attribution}
                               </p>
-
                             </div>
-
                           )}
 
-
                           <p className="mt-5 text-xs leading-6 text-base-content/50">
-                            These coordinates represent the location
-                            recorded in the image metadata. Reverse
-                            geocoding identifies the nearest mapped
-                            address, which may not be the exact
+                            These coordinates represent the location recorded in
+                            the image metadata. Reverse geocoding identifies the
+                            nearest mapped address, which may not be the exact
                             building or property.
                           </p>
-
                         </>
-
                       ) : (
-
                         <div className="py-9 text-center">
-
                           <MapPin
                             size={34}
                             className="mx-auto text-base-content/25"
@@ -799,20 +632,14 @@ function MetadataPage() {
                           </h4>
 
                           <p className="mx-auto mt-2 max-w-sm text-xs leading-6 text-base-content/50">
-                            This image does not contain usable
-                            GPS information. An internet connection
-                            cannot recover coordinates that were
-                            never recorded.
+                            This image does not contain usable GPS information.
+                            An internet connection cannot recover coordinates
+                            that were never recorded.
                           </p>
-
                         </div>
-
                       )}
-
                     </div>
-
                   </section>
-
 
                   {/* PNG metadata chunks */}
 
@@ -824,7 +651,6 @@ function MetadataPage() {
                       value: `${item.length} bytes`,
                     }))}
                   />
-
 
                   {/* Text metadata */}
 
@@ -841,44 +667,148 @@ function MetadataPage() {
                     }))}
                   />
 
-
                   {/* Physical dimensions */}
 
                   <MetadataTable
                     title="Physical dimensions"
                     rows={
                       report.image.physicalDimensions
-                        ? Object.entries(
-                            report.image.physicalDimensions,
-                          ).map(([label, value]) => ({
-                            label,
-                            value,
-                          }))
+                        ? Object.entries(report.image.physicalDimensions).map(
+                            ([label, value]) => ({
+                              label,
+                              value,
+                            }),
+                          )
                         : []
                     }
                   />
-
                 </>
-
               )}
-
             </div>
-
           </div>
-
 
           {/* Footer note */}
 
           <p className="mt-9 text-center text-xs leading-6 text-base-content/45">
-
-            Metadata is not guaranteed to be authentic or complete.
-            Image editing software can modify or remove timestamps,
-            camera information and geographical coordinates.
-
+            Metadata is not guaranteed to be authentic or complete. Image
+            editing software can modify or remove timestamps, camera information
+            and geographical coordinates.
           </p>
 
-        </div>
+          {/* Other tools */}
+          <div className="mt-12">
+            <div className="mb-6">
+              <span className="section-eyebrow">MORE CIPHER TOOLS</span>
 
+              <h2 className="mt-3 font-display text-3xl font-bold tracking-[-0.06em]">
+                Beyond encryption.
+              </h2>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {/* Encrypt/Decrypt Image */}
+              <Link
+                to="/studio"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary">
+                  <FilePenLine size={25} />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold">Encrypt / Decrypt Image</h3>
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Write or extract a secret message from an image
+                </p>
+                <span className="mt-6 inline-block text-sm font-bold text-primary">Encrypt/Decrypt Image →</span>
+              </Link>
+
+              {/* Metadata editor */}
+              <Link
+                to="/studio/metadata-editor"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary">
+                  <FilePenLine size={25} />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold">
+                  Metadata Editor
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Add titles, author details, descriptions and copyright
+                  information.
+                </p>
+                <span className="mt-6 inline-block text-sm font-bold text-primary">
+                  Edit metadata →
+                </span>
+              </Link>
+
+              {/* Metadata cleaner */}
+              <Link
+                to="/studio/cleaner"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary">
+                  <Eraser size={25} />
+                </div>
+
+                <h3 className="mt-6 font-display text-xl font-bold">
+                  Metadata Cleaner
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Remove descriptive PNG metadata and supported hidden CIPHER
+                  payloads.
+                </p>
+
+                <span className="mt-6 inline-block text-sm font-bold text-primary">
+                  Clean image →
+                </span>
+              </Link>
+
+              {/* Hidden payload cleaner */}
+              <Link
+                to="/studio/clear-payload"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-warning/10 text-warning">
+                  <Eraser size={25} />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold">
+                  Payload Cleaner
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Clear a hidden CIPHER message from pixel data without its
+                  secret key.
+                </p>
+                <span className="mt-6 inline-block text-sm font-bold text-primary">
+                  Clear hidden data →
+                </span>
+              </Link>
+
+              {/* Key Vault */}
+              <Link
+                to="/studio/vault"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Vault size={25} />
+                </div>
+
+                <h3 className="mt-6 font-display text-xl font-bold">
+                  CIPHER Key Vault
+                </h3>
+
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Keep image references and secret keys in this browser for 48
+                  hours.
+                </p>
+
+                <span className="mt-6 inline-block text-sm font-bold text-primary">
+                  Open your vault →
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
       </main>
 
       <Footer />

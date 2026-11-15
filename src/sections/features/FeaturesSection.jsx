@@ -9,6 +9,8 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { Link } from "react-router";
+
 
 import SectionHeading from "../../components/ui/SectionHeading";
 
@@ -17,10 +19,11 @@ const features = [
     number: "01",
     title: "Hide a message",
     description:
-      "Embed encrypted messages inside ordinary PNG images using pixel-level steganography.",
+      "Embed encrypted messages in images using pixel-level steganography and lossless PNG output.",
     icon: EyeOff,
     color: "#3857d6",
     background: "#e2e8ff",
+    path: "/studio",
   },
   {
     number: "02",
@@ -30,6 +33,7 @@ const features = [
     icon: Eye,
     color: "#e16d48",
     background: "#ffe5d8",
+    path: "/studio",
   },
   {
     number: "03",
@@ -39,6 +43,7 @@ const features = [
     icon: ShieldCheck,
     color: "#4d8067",
     background: "#dcece1",
+    path: "/studio",
   },
   {
     number: "04",
@@ -48,6 +53,7 @@ const features = [
     icon: ScanSearch,
     color: "#725381",
     background: "#eae0f0",
+    path: "/studio/metadata",
   },
   {
     number: "05",
@@ -57,15 +63,17 @@ const features = [
     icon: Image,
     color: "#b37a21",
     background: "#f8edc9",
+    path: "/studio/clear-payload",
   },
   {
     number: "06",
     title: "Keep your keys",
     description:
-      "Maintain a locally encrypted history of associated images and secret keys.",
+      "Keep encrypted-image copies and associated keys in a temporary local browser Vault.",
     icon: KeyRound,
     color: "#3857d6",
     background: "#e2e8ff",
+    path: "/studio/vault",
   },
 ];
 
@@ -96,44 +104,50 @@ function FeaturesSection() {
             const Icon = feature.icon;
 
             return (
-              <motion.article
+              <Link
                 key={feature.number}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.07,
-                }}
-                whileHover={{ y: -7 }}
-                className="group rounded-[22px] border border-base-300 bg-base-100 p-7 transition-shadow duration-300 hover:shadow-xl"
+                to={feature.path}
+                className="block h-full rounded-[22px] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4"
+                aria-label={`${feature.title} - Open ${feature.path}`}
               >
-                <div className="flex items-center justify-between">
-                  <div
-                    className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
-                    style={{
-                      background: feature.background,
-                      color: feature.color,
-                    }}
-                  >
-                    <Icon size={27} />
+                <motion.article
+                  initial={{ opacity: 0, y: 35 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: index * 0.07,
+                  }}
+                  whileHover={{ y: -7 }}
+                  className="group h-full rounded-[22px] border border-base-300 bg-base-100 p-7 transition-shadow duration-300 hover:shadow-xl"
+                >
+                  <div className="flex items-center justify-between">
+                    <div
+                      className="flex h-14 w-14 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-110"
+                      style={{
+                        background: feature.background,
+                        color: feature.color,
+                      }}
+                    >
+                      <Icon size={27} />
+                    </div>
+
+                    <span className="font-pixel text-[9px] text-base-content/40">
+                      {feature.number}
+                    </span>
                   </div>
 
-                  <span className="font-pixel text-[9px] text-base-content/40">
-                    {feature.number}
-                  </span>
-                </div>
+                  <h3 className="mt-9 font-display text-2xl font-bold tracking-[-0.05em]">
+                    {feature.title}
+                  </h3>
 
-                <h3 className="mt-9 font-display text-2xl font-bold tracking-[-0.05em]">
-                  {feature.title}
-                </h3>
+                  <p className="mt-3 text-sm leading-7 text-base-content/60">
+                    {feature.description}
+                  </p>
 
-                <p className="mt-3 text-sm leading-7 text-base-content/60">
-                  {feature.description}
-                </p>
-
-                <div className="mt-7 h-1 w-10 bg-secondary transition-all duration-300 group-hover:w-full" />
-              </motion.article>
+                  <div className="mt-7 h-1 w-10 bg-secondary transition-all duration-300 group-hover:w-full" />
+                </motion.article>
+              </Link>
             );
           })}
         </div>

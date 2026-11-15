@@ -8,12 +8,14 @@ import {
 } from "lucide-react";
 
 import SectionHeading from "../../components/ui/SectionHeading";
+import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 
 const steps = [
   {
     number: "01",
     title: "Choose an image",
-    text: "Start with an ordinary PNG image that will carry your secret message.",
+    text: "Choose a browser-supported image. CIPHER prepares a PNG carrier for reliable pixel storage.",
     icon: FileImage,
     color: "#3857d6",
   },
@@ -34,7 +36,7 @@ const steps = [
   {
     number: "04",
     title: "Download and share",
-    text: "Export the resulting PNG. The recipient can extract and decrypt the message with the correct key.",
+    text: "Download the resulting PNG. The recipient can extract and decrypt the message with the correct key.",
     icon: Download,
     color: "#725381",
   },
@@ -107,6 +109,11 @@ function HowItWorksSection() {
               </motion.article>
             );
           })}
+        </div>
+        <div className="mt-14 border-t border-white/15 pt-7">
+          <Link to="/learn/steganography" className="inline-flex items-center gap-2 rounded-full bg-[#f5ca61] px-5 py-3 text-sm font-bold text-[#24252b] transition-transform hover:-translate-y-1">
+            Learn more about the process <ArrowUpRight size={17} />
+          </Link>
         </div>
       </div>
     </section>

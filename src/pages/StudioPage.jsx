@@ -16,6 +16,7 @@ import {
   Sparkles,
   Vault,
   FileSearch,
+  FilePenLine,
   Eraser,
 } from "lucide-react";
 
@@ -31,6 +32,7 @@ import {
 
 import { downloadBlob } from "../lib/image/png";
 import { extractCipherKey } from "../lib/image/cipherKeyMetadata";
+import { saveLocalVaultRecord } from "../lib/vault/localVaultService";
 
 function StudioPage() {
   const [mode, setMode] = useState("encrypt");
@@ -106,10 +108,18 @@ function StudioPage() {
           height: output.height,
         });
 
+        let vaultMessage = "";
+        try {
+          await saveLocalVaultRecord(output.blob, password, "cipher-encrypted.png");
+          vaultMessage = " The image and key were also saved automatically to your local Vault for 48 hours.";
+        } catch {
+          vaultMessage = " The image is ready, but browser storage was unavailable, so it was not added to your Vault.";
+        }
+
         setSuccess(
-          embedKeyInMetadata
+          (embedKeyInMetadata
             ? "Message hidden. The secret key was also added to the PNG metadata."
-            : "Your message has been encrypted and hidden."
+            : "Your message has been encrypted and hidden.") + vaultMessage
         );
       } else {
         // Always try the fixed CIPHER metadata field first.
@@ -255,10 +265,7 @@ function StudioPage() {
                   />
 
                   <p className="text-xs leading-6 text-base-content/60">
-                    Image processing happens locally in your browser. The
-                    selected image is not uploaded to a server. Current LSB
-                    hide/extract support is PNG-only; other formats are not
-                    converted behind your back.
+Image processing happens locally in your browser. CIPHER prepares supported images automatically and provides a lossless PNG carrier for download so the hidden data survives saving and sharing.
                   </p>
                 </div>
               </div>
@@ -430,18 +437,10 @@ function StudioPage() {
 
                     <Link
                       to="/studio/vault"
-                      state={{
-                        imageFile: new File(
-                          [result.blob],
-                          "cipher-encrypted.png",
-                          { type: "image/png" }
-                        ),
-                        secretKey: password,
-                      }}
-                      className="cipher-button cipher-button-outline mt-3 w-full"
+                      className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-base-300 px-4 py-3 text-sm font-bold transition-colors hover:bg-base-200"
                     >
                       <Vault size={17} />
-                      Save image &amp; key to Vault
+                      View local Vault
                     </Link>
                   </div>
                 )}
@@ -514,6 +513,21 @@ function StudioPage() {
                 </span>
               </Link>
 
+              {/* Metadata editor */}
+              <Link
+                to="/studio/metadata-editor"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary/10 text-secondary">
+                  <FilePenLine size={25} />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold">Metadata Editor</h3>
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Add titles, author details, descriptions and copyright information.
+                </p>
+                <span className="mt-6 inline-block text-sm font-bold text-primary">Edit metadata →</span>
+              </Link>
+
               {/* Metadata cleaner */}
               <Link
                 to="/studio/cleaner"
@@ -535,6 +549,21 @@ function StudioPage() {
                 <span className="mt-6 inline-block text-sm font-bold text-primary">
                   Clean image →
                 </span>
+              </Link>
+
+              {/* Hidden payload cleaner */}
+              <Link
+                to="/studio/clear-payload"
+                className="group rounded-2xl border border-base-300 bg-base-100 p-6 transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-warning/10 text-warning">
+                  <Eraser size={25} />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold">Payload Cleaner</h3>
+                <p className="mt-2 text-sm leading-6 text-base-content/60">
+                  Clear a hidden CIPHER message from pixel data without its secret key.
+                </p>
+                <span className="mt-6 inline-block text-sm font-bold text-primary">Clear hidden data →</span>
               </Link>
 
               {/* Key Vault */}

@@ -27,16 +27,16 @@ const footerGroups = [
   {
     title: "THE SCIENCE",
     links: [
-      ["AES-256-GCM", "/#technology"],
-      ["PBKDF2", "/#technology"],
-      ["LSB Steganography", "/#technology"],
-      ["PNG Processing", "/#technology"],
+      ["AES-256-GCM", "/learn/aes"],
+      ["PBKDF2", "/learn/pbkdf2"],
+      ["LSB Steganography", "/learn/lsb"],
+      ["PNG Processing", "/learn/png"],
     ],
   },
   {
     title: "PROJECT",
     links: [
-      ["Technology overview", "/#technology"],
+      ["Technology overview", "/technology"],
       ["Privacy", "/privacy"],
       ["Documentation", "/documentation"],
     ],
@@ -64,7 +64,7 @@ function Footer() {
             </p>
 
             <a
-              href="https://github.com/"
+              href="https://github.com/Tekade-Ji/Cypher-Steganography-Project"
               target="_blank"
               rel="noreferrer"
               className="mt-7 inline-flex items-center gap-3 rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold transition-colors hover:bg-white hover:text-[#292a31]"

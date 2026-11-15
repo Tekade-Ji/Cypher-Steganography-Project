@@ -79,7 +79,7 @@ export async function getLocalVaultRecords() {
   return active.sort((a, b) => b.createdAt - a.createdAt);
 }
 
-export async function saveLocalVaultRecord(file, secretKey) {
+export async function saveLocalVaultRecord(file, secretKey, imageName = "cipher-encrypted.png") {
   if (!file || !secretKey?.trim()) {
     throw new Error("An image and secret key are required.");
   }
@@ -87,9 +87,10 @@ export async function saveLocalVaultRecord(file, secretKey) {
   const now = Date.now();
   const record = {
     id: crypto.randomUUID(),
-    imageName: file.name || "CIPHER image",
+    imageName: file.name || imageName || "CIPHER image",
     imageSize: file.size || 0,
     imageType: file.type || "image/png",
+    imageBlob: file,
     thumbnail: await makeThumbnail(file),
     secretKey,
     createdAt: now,
