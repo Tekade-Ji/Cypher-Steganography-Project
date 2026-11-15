@@ -1,3 +1,4 @@
+
 import { ArrowUpRight, ArrowUp, Code2 } from "lucide-react";
 
 import Logo from "../../components/brand/Logo";
@@ -37,7 +38,10 @@ const footerGroups = [
     title: "PROJECT",
     links: [
       ["Technology overview", "/technology"],
-      ["Documentation", "https://github.com/Tekade-Ji/Cypher-Steganography-Project/blob/main/docs/PROJECT_DOCUMENTATION.md"],
+      [
+        "Documentation",
+        "https://github.com/Tekade-Ji/Cypher-Steganography-Project/blob/main/docs/PROJECT_DOCUMENTATION.md",
+      ],
     ],
   },
 ];
@@ -84,12 +88,23 @@ function Footer() {
                 <ul className="mt-6 space-y-4">
                   {group.links.map(([label, href]) => (
                     <li key={label}>
-                      <Link
-                        to={href}
-                        className="text-xs leading-6 text-neutral-content/60 transition-colors hover:text-neutral-content"
-                      >
-                        {label}
-                      </Link>
+                      {href.startsWith("http") ? (
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs leading-6 text-neutral-content/60 transition-colors hover:text-neutral-content"
+                        >
+                          {label}
+                        </a>
+                      ) : (
+                        <Link
+                          to={href}
+                          className="text-xs leading-6 text-neutral-content/60 transition-colors hover:text-neutral-content"
+                        >
+                          {label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
